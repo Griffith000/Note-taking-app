@@ -1,17 +1,32 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import Navbar from "../components/Navbar";
 import NoteCard from "../components/NoteCard";
 import { MdAdd } from "react-icons/md";
 import AddEditNote from "../components/AddEditNote";
+import axiosInstance from "../utils/axiosInstance";
+
 const Home = () => {
+  const [userInfo , setUserInfo] = useState(null);
   const [openAddEditModel, setOpenAddEditModel] = React.useState({
     isShown: false,
     type: "add",
     data: null,
   });
+  const getUserInfo = async () => {
+    try {
+      const res = await axiosInstance.get("/api/auth/get-user");
+      setUserInfo(res.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
   return (
     <div>
-      <Navbar />
+      <Navbar userInfo={userInfo} />
       <div className="container mx-auto">
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4 mt-10">
           <NoteCard

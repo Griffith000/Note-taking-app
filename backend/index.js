@@ -5,9 +5,11 @@ import mongoose from "mongoose";
 import router from "./Routes/auth.routes.js";
 import noteRouter from "./Routes/note.routes.js";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 const app = express();
 dotenv.config();
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
 mongoose

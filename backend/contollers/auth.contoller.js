@@ -27,7 +27,14 @@ export const login = async (req, res) => {
         { expiresIn: "1h" }
       );
       const { password, ...userInfo } = user._doc;
-      res.status(200).json({ userInfo, token });
+
+      res.status(200).cookie(
+        "token",
+        token,
+        {
+          httpOnly: true,
+        }
+       ).json({ userInfo, token });
     } else {
       res.status(401).send("Invalid Credentials");
     }
@@ -35,3 +42,8 @@ export const login = async (req, res) => {
     res.status(500).send(error.message);
   }
 };
+export const getUser = async (req, res) => {
+  const { user } = req.user;
+  const isUser = await User.findOne({ user });
+  res.json({"name":isUser.name,"email":isUser.email});
+}

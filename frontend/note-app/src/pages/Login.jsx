@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "../components/PasswordInput.jsx";
 import { validateEmail, validatePassword } from "../utils/helper.js";
 import axios from "axios";
+import axiosInstance from "../utils/axiosInstance.js";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -23,8 +24,8 @@ const Login = () => {
     setError("");
     // use axios to fetch
     try {
-      const res = await axios.post("/api/auth/login", { email, password });
-      console.log(res.data);
+      const res = await axiosInstance.post("/api/auth/login", { email, password });
+      localStorage.setItem("token", res.data.token);
       navigate("/dashboard");
     } catch (error) {
       setError("An error occurred while logging in");

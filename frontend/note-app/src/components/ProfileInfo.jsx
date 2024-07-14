@@ -1,6 +1,6 @@
 import React from "react";
 import { getinitals } from "../utils/helper";
-const ProfileInfo = ({ onLogOut }) => {
+const ProfileInfo = ({ userInfo,onLogOut }) => {
   return (
     <div className="flex gap-5">
       <div className="bg-slate-300 text-lg text-slate-700 rounded-full w-12 h-12 flex items-center justify-center">
