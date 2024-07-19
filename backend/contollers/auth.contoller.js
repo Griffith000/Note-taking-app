@@ -43,7 +43,15 @@ export const login = async (req, res) => {
   }
 };
 export const getUser = async (req, res) => {
-  const { user } = req.user;
-  const isUser = await User.findOne({ user });
-  res.json({"name":isUser.name,"email":isUser.email});
+  const { id } = req.user; // Assuming 'id' was included in the token payload
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    const { password, ...userInfo } = user._doc;
+    res.json(userInfo);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 }

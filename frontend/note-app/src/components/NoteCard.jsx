@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { MdOutlinePushPin } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
+import moment from "moment";
 
 const NoteCard = ({
   title,
@@ -15,11 +16,13 @@ const NoteCard = ({
   onPinNote,
 }) => {
   return (
-    <div className="px-5 py-5 md:mx-10 sm:mx-1 w-full border border-slate-300 rounded-lg hover:shadow-lg transition-all ease-in-out">
+    <div className="px-5 py-5 w-full border border-slate-300 rounded-lg hover:shadow-lg transition-all ease-in-out">
       <div className="flex justify-between ">
         <div className="card-header">
           <h2>{title}</h2>
-          <h3 className="text-slate-400 text-sm">{date}</h3>
+          <h3 className="text-slate-400 text-sm">
+            {moment(date).format("MMM Do YYYY")}
+          </h3>
         </div>
         <MdOutlinePushPin
           size={22}
@@ -30,20 +33,23 @@ const NoteCard = ({
       <p>{content}</p>
       <div className="flex justify-between text-slate-400">
         <div className="tags">
-         {tags.map((tag, index) => (
+          {tags.map((tag, index) => (
             <span key={index} className="text-xs">
-              {tag}
+              #{tag}
             </span>
           ))}
-            
         </div>
         <div className="flex gap-3">
-        <MdEdit size={22} onClick={onEdit} className="hover:text-green-500 transition" />
-        <MdDelete
-          size={22}
-          onClick={onDelete}
-          className="hover:text-red-500 transition"
-        />
+          <MdEdit
+            size={22}
+            onClick={onEdit}
+            className="hover:text-green-500 transition"
+          />
+          <MdDelete
+            size={22}
+            onClick={onDelete}
+            className="hover:text-red-500 transition"
+          />
         </div>
       </div>
     </div>
