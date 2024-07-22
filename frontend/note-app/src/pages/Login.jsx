@@ -34,6 +34,7 @@ const Login = () => {
 
   return (
     <>
+   
       <Navbar />
       <div className="flex flex-col justify-center items-center  w-[30rem] shadow-md mx-auto mt-24 py-4 rounded-lg ">
         <div className=" w-3/4 text-2xl font-semibold -ml-5 py-5 ">Login</div>

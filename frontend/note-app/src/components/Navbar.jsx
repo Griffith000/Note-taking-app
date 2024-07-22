@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import ProfileInfo from "./ProfileInfo";
 import SearchBar from "./SearchBar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
+
 const Navbar = ({ userInfo, onSearchNote, onClearSearch }) => {
   const navigate = useNavigate();
   const onLogOut = () => {
@@ -23,7 +24,10 @@ const Navbar = ({ userInfo, onSearchNote, onClearSearch }) => {
   };
   return (
     <div className="flex justify-between items-center sm:text-2xl md:text-3xl font-semibold py-4 md:py-5 px-7 md:px-11 shadow-md transition-all ease-in-out">
-      <div className="flex items-center justify-center">Note</div>
+      <Link to="/">
+      <div className="flex items-center justify-center cursor-pointer">Note</div>
+      </Link>
+
       {userInfo && <SearchBar
         value={searchQuery}
         onChange={(e) => {
@@ -32,7 +36,7 @@ const Navbar = ({ userInfo, onSearchNote, onClearSearch }) => {
         handleSearch={handleSearch}
         handleClearSearch={handleClearSearch}
       />}
-      {userInfo && <ProfileInfo userInfo={userInfo} onLogOut={onLogOut} />}
+      {userInfo && <ProfileInfo userInfo={userInfo} onLogOut={onLogOut} /> }
     </div>
   );
 };
