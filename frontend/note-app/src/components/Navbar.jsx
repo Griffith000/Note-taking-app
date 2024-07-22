@@ -7,6 +7,7 @@ const Navbar = ({ userInfo, onSearchNote, onClearSearch }) => {
   const onLogOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("notes");
     navigate("/login");
   };
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,14 +24,14 @@ const Navbar = ({ userInfo, onSearchNote, onClearSearch }) => {
   return (
     <div className="flex justify-between items-center sm:text-2xl md:text-3xl font-semibold py-4 md:py-5 px-7 md:px-11 shadow-md transition-all ease-in-out">
       <div className="flex items-center justify-center">Note</div>
-      <SearchBar
+      {userInfo && <SearchBar
         value={searchQuery}
         onChange={(e) => {
           setSearchQuery(e.target.value);
         }}
         handleSearch={handleSearch}
         handleClearSearch={handleClearSearch}
-      />
+      />}
       {userInfo && <ProfileInfo userInfo={userInfo} onLogOut={onLogOut} />}
     </div>
   );
