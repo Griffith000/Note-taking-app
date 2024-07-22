@@ -1,7 +1,7 @@
 import React from "react";
 import { IoMdClose } from "react-icons/io";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-const SearchBar = ({ value, onChange, handleSearch, onClearSearch }) => {
+const SearchBar = ({ value, onChange, handleSearch, handleClearSearch }) => {
   return (
     <div className="relative flex items-center text-slate-400 md:min-w-screen-md sm:max-w-screen-sm">
       <input
@@ -13,7 +13,7 @@ const SearchBar = ({ value, onChange, handleSearch, onClearSearch }) => {
       />
       {value && (
         <IoMdClose
-          onClick={onClearSearch}
+          onClick={handleClearSearch}
           size={22}
           className="absolute right-14 cursor-pointer"
         />

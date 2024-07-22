@@ -41,12 +41,10 @@ export const getNotes = async (req, res) => {
     }
     res.json(notes);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "An error occurred while fetching the notes",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "An error occurred while fetching the notes",
+      error: error.message,
+    });
   }
 };
 
@@ -65,4 +63,30 @@ export const pinNote = async (req, res) => {
     { new: true }
   );
   res.json(updatedNote);
+};
+
+export const searchNotes = async (req, res) => {
+  const user = req.user;
+  const { query } = req.query;
+  if (!user) return res.status(400).json({ message: "User is required" });
+  if (!query) return res.status(400).json({ message: "Query is required" });
+  try {
+    const notes = await Note.find({
+      userId: user.id,
+      $or: [
+        { title: { $regex: query, $options: "i" } },
+        { content: { $regex: query, $options: "i" } },
+        { tags: { $regex: query, $options: "i" } },
+      ],
+    });
+    if (notes.length === 0) {
+      return res.status(404).json({ message: "No notes found" });
+    }
+    res.status(200).json({ message: "Notes found", notes });
+  } catch (err) {
+    console.log(err.message);
+    res
+      .status(500)
+      .json({ message: "Error searching for notes", error: err.message });
+  }
 };

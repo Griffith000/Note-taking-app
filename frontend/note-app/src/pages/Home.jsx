@@ -4,11 +4,13 @@ import NoteCard from "../components/NoteCard";
 import { MdAdd } from "react-icons/md";
 import AddEditNote from "../components/AddEditNote";
 import axiosInstance from "../utils/axiosInstance.js";
-import ToastMessage from "../components/ToastMessage.jsx";
-import EmptyCard from "../components/EmptyCard.jsx";
-import react from "../assets/react.svg";
+import ToastMessage from "../components/ToastMessage";
+import EmptyCard from "../components/EmptyCard";
+import noNotesFound from "/images/not-found.png";
+import addNotes from "/images/add.png";
 
 const Home = () => {
+  const [isSearch, setIsSearch] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [notes, setNotes] = useState([]);
   const [openAddEditModel, setOpenAddEditModel] = useState({
@@ -69,6 +71,31 @@ const Home = () => {
       console.log(error.message);
     }
   };
+  const onClearSearch = async () => {
+    try {
+      await getNotes();
+    } catch (error) {
+      console.log(error.message);
+    }
+    setIsSearch(false);
+  };
+  const onSearchNote = async (query) => {
+    try {
+      setIsSearch(true);
+      const res = await axiosInstance.get("/api/note/search-notes", {
+        params: { query },
+      });
+
+      if (res.data && res.data.message === "Notes found") {
+        setNotes(res.data.notes);
+      } else {
+        setNotes([]);
+      }
+    } catch (error) {
+      console.log(error.message);
+      setNotes([]);
+    }
+  };
   const handleDelete = async (noteId) => {
     try {
       await axiosInstance.delete("/api/note/delete-note/" + noteId);
@@ -85,12 +112,21 @@ const Home = () => {
         await getUserInfo(); // Assuming this method correctly sets userInfo
       }
       const res = await axiosInstance.get("/api/note/get-notes");
-      setNotes(res.data);
-      savedNotes = localStorage.setItem("notes", JSON.stringify(res.data));
+      if (res.data && res.data.message === "No notes found for this user") {
+        setNotes([]);
+        localStorage.setItem("notes", JSON.stringify([])); // Set local storage to an empty array
+      } else {
+        // Otherwise, update the notes state with the fetched notes
+        setNotes(res.data);
+        localStorage.setItem("notes", JSON.stringify(res.data));
+      }
     } catch (error) {
       console.log(error.message);
+      setNotes([]);
+      localStorage.setItem("notes", JSON.stringify([]));
     }
   };
+  useEffect(() => {}, [notes]);
   const getUserInfo = async () => {
     try {
       const res = await axiosInstance.get("/api/auth/get-user");
@@ -106,7 +142,11 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar userInfo={userInfo} />
+      <Navbar
+        onClearSearch={onClearSearch}
+        onSearchNote={onSearchNote}
+        userInfo={userInfo}
+      />
       <div className="container mx-auto">
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4 mt-10 md:mx-7 sm:mx-1">
           {notes.length > 0 ? (
@@ -131,9 +171,11 @@ const Home = () => {
             ))
           ) : (
             <EmptyCard
-              image={react}
+              image={isSearch ? noNotesFound : addNotes}
               caption={
-                "Lets create our fist note just click the add button at the bottom"
+                isSearch
+                  ? "No notes found for the search query, try again with a different search query"
+                  : "Start creating your fist note, click the 'Add' button at the bottom right corner to jot down your thoughts and reminders ... let's get started!"
               }
             />
           )}
