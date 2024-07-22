@@ -106,8 +106,8 @@ const AddEditNote = ({
   };
 
   return (
-    <div className="relative w-2/4 h-3/4 min-h-[500px]">
-      <div className="absolute -top-[150px] -right-[20rem] z-50  text-slate-900">
+    <div className="relative w-3/4 h-4/5 min-h-[500px]">
+      <div className="absolute -top-96 right-9 z-50  text-slate-900">
         <button onClick={onClose}>
           <MdClose size={22} className=" text-2xl cursor-pointer" />
         </button>

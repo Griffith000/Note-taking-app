@@ -3,30 +3,15 @@ import { useNavigate, Outlet } from "react-router-dom";
 
 const PrivateRoute = () => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  let auth = { token: localStorage.getItem("token") }; // Assuming the token is stored in localStorage
 
   useEffect(() => {
-    const updateLoginStatus = () => {
-      // Assuming the token is stored with the key 'authToken' in localStorage
-      const token = localStorage.getItem("authToken");
-      setIsLoggedIn(!!token); // Sets isLoggedIn to true if token exists, false otherwise
+    if (!auth.token) {
+      navigate("/login");
+    }
+  }, [auth.token, navigate]); // Dependency array to re-run the effect if these values change
 
-      if (!token) {
-        navigate("/login");
-      }
-    };
-
-    // Initial check
-    updateLoginStatus();
-
-    // Setup listener for changes in localStorage
-    window.addEventListener("storage", updateLoginStatus);
-
-    // Cleanup listener on component unmount
-    return () => window.removeEventListener("storage", updateLoginStatus);
-  }, [navigate]);
-
-  return isLoggedIn ? <Outlet /> : null;
+  return auth.token ? <Outlet /> : null; // Render Outlet if authenticated, otherwise render nothing
 };
 
 export default PrivateRoute;

@@ -6,6 +6,7 @@ const Navbar = ({ userInfo, onSearchNote, onClearSearch }) => {
   const navigate = useNavigate();
   const onLogOut = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("userInfo");
     navigate("/login");
   };
   const [searchQuery, setSearchQuery] = useState("");
