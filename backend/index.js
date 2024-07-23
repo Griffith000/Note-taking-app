@@ -6,6 +6,7 @@ import router from "./Routes/auth.routes.js";
 import noteRouter from "./Routes/note.routes.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import path from "path";
 const app = express();
 dotenv.config();
 app.use(cors());
@@ -25,5 +26,10 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, "frontend/note-app/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "frontend/note-app/dist", "index.html"));
+})
 app.use("/api/auth", router);
 app.use("/api/note", noteRouter);
