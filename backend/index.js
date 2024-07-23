@@ -29,7 +29,7 @@ app.listen(PORT, () => {
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, "frontend/note-app/dist")));
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "frontend/note-app/dist", "index.html"));
+  res.sendFile(path.resolve(__dirname, "frontend/note-app/", "dist", "index.html"));
 })
 app.use("/api/auth", router);
 app.use("/api/note", noteRouter);
