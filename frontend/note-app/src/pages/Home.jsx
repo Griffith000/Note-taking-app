@@ -182,7 +182,7 @@ const Home = () => {
               image={isSearch ? noNotesFound : addNotes}
               caption={
                 isSearch
-                  ? "No notes found for the search query, try again with a different search query"
+                  ? "No notes found"
                   : "Start creating your fist note, click the 'Add' button at the bottom right corner to jot down your thoughts and reminders ... let's get started!"
               }
             />
