@@ -57,12 +57,16 @@ export const deleteNote = async (req, res) => {
 export const pinNote = async (req, res) => {
   const { id } = req.params;
   if (!id) return res.status(404).send(`No note with id: ${id}`);
+  try{
   const updatedNote = await Note.findByIdAndUpdate(
     id,
     { isPinned: !Note.isPinned },
     { new: true }
   );
-  res.json(updatedNote);
+  res.json({updatedNote , message: "Note pinned successfully" });
+  }catch(error){
+    res.status(500).json({ message: "Error pinning note", error: error.message });
+  }   
 };
 
 export const searchNotes = async (req, res) => {

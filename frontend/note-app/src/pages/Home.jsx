@@ -64,11 +64,19 @@ const Home = () => {
     });
   };
   const handleOnPinNote = async (noteId) => {
+    console.log("Pinning note with id: ", noteId);
     try {
-      await axiosInstance.put("/api/note/pin-note/" + noteId);
-      getNotes();
+      const res = await axiosInstance.put(`/api/note/pin-note/${noteId}`);
+      if (res.data && res.data.message === "Note pinned successfully") {
+        handleShowToast("Note pinned successfully", "success");
+        await getNotes(); // Assuming getNotes is async and you want to wait for it
+      } else {
+        // Handle unexpected response
+        handleShowToast("Failed to pin the note", "error");
+      }
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
+      handleShowToast("An error occurred while pinning the note", "error");
     }
   };
   const onClearSearch = async () => {
@@ -209,9 +217,6 @@ const Home = () => {
           getAddedNote={getNotes}
         />
       ) : null}
-      {/* {!openAddEditModel.isShown && showToastMessage.isShown ? (
-        <ToastMessage onClose={handleCloseToast} isShown={showToastMessage.isShown} message={showToastMessage.message} type={showToastMessage.type } />
-      ) : null} */}
       <ToastMessage
         onClose={handleCloseToast}
         isShown={showToastMessage.isShown}

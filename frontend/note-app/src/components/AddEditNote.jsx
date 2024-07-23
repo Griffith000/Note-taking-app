@@ -106,14 +106,14 @@ const AddEditNote = ({
   };
 
   return (
-    <div className="relative w-3/4 h-4/5 min-h-[500px]">
-      <div className="absolute -top-96 right-9 z-50  text-slate-900">
+    <div className=" w-3/4 h-4/5 min-h-[500px]">
+      <div className="fixed inset-0 bg-black bg-opacity-50 z-10 flex justify-center items-center">
+        <div className="bg-white w-2/4 h-3/4 min-h-[500px] rounded-lg px-7 py-11 relative">
+      <div className="absolute top-10 right-16 z-50  text-slate-900">
         <button onClick={onClose}>
-          <MdClose size={22} className=" text-2xl cursor-pointer" />
+          <MdClose size={22} className="text-2xl cursor-pointer" />
         </button>
       </div>
-      <div className="fixed inset-0 bg-black bg-opacity-50 z-10 flex justify-center items-center">
-        <div className=" bg-white w-2/4 h-3/4 min-h-[500px] rounded-lg px-7 py-11">
           <h1 className="text-xl font-semibold">Add Note</h1>
           <form className="mt-3">
             <div className="mb-2">

@@ -27,6 +27,9 @@ const Navbar = ({ userInfo, onSearchNote, onClearSearch }) => {
       <Link to="/">
       <div className="flex items-center justify-center cursor-pointer">Note</div>
       </Link>
+      
+      {!userInfo ? <div className="flex items-center justify-center cursor-pointer text-lg">v1.0.0</div> : null}
+     
 
       {userInfo && <SearchBar
         value={searchQuery}

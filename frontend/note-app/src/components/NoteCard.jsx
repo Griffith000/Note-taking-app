@@ -16,7 +16,7 @@ const NoteCard = ({
   onPinNote,
 }) => {
   return (
-    <div className="px-5 py-5 w-full border border-slate-300 rounded-lg hover:shadow-lg transition-all ease-in-out">
+    <div className={`px-5 py-5 w-full border border-slate-300 rounded-lg hover:shadow-lg transition-all ease-in-out ${isPinned ? "bg-slate-50 text-slate-400" : "bg-while"}`}>
       <div className="flex justify-between ">
         <div className="card-header">
           <h2>{title}</h2>
@@ -27,7 +27,7 @@ const NoteCard = ({
         <MdOutlinePushPin
           size={22}
           onClick={onPinNote}
-          className={isPinned ? "text-red-500" : "text-primary"}
+          className={isPinned ? "text-orange-500" : "text-primary"}
         />
       </div>
       <p>{content}</p>
